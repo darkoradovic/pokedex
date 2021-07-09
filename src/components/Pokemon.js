@@ -3,7 +3,7 @@ import { Card, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 const pokemon = ({ id, type, image, name }) => {
-  const style = type + " thumb-container";
+  const style = type + " thumb-container rounded text-white";
   return (
           <div className='cards'>
               <Card
@@ -13,7 +13,7 @@ const pokemon = ({ id, type, image, name }) => {
             <Link to={`/pokemon/${name}`}>
               <Card.Img style={{ width: "8rem" }} src={image} variant="top" />
             </Link>
-            <Card.Body className={`${style} rounded text-white`}>
+            <Card.Body className={style}>
               <Link to={`/pokemon/${name}`} className="link-name">
                 <Card.Title as="div">
                   <strong>

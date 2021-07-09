@@ -53,9 +53,13 @@ const HomePage = () => {
               />
             );
           })}
-          <button className="load-more" onClick={() => getPokemons()}>
-            Load more
-          </button>
+          {loading ? (
+            <Loader />
+          ) : (
+            <button className="load-more" onClick={() => getPokemons()}>
+              Load more
+            </button>
+          )}
         </div>
       )}
     </>
