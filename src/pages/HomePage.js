@@ -2,10 +2,11 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import Pokemon from "../components/Pokemon";
-import { Col, Row } from "react-bootstrap";
+import { Form, Col, Row } from "react-bootstrap";
 
 const HomePage = () => {
   const [loading, setLoading] = useState(false);
+  const [search, setSearch] = useState(null);
   const [pokemons, setPokemons] = useState([]);
   const [loadMorePokemons, setLoadMorePokemons] = useState(
     "https://pokeapi.co/api/v2/pokemon?limit=20"
@@ -36,23 +37,49 @@ const HomePage = () => {
     getPokemons();
   }, []);
 
+  const searchPokemons = (e) => {
+    let keyword = e.target.value;
+    setSearch(keyword);
+  };
+
+  const items = pokemons
+    .filter((data) => {
+      if (search === null) {
+        return data;
+      } else if (
+        data.name
+          .toLowerCase()
+          .includes(search.toLowerCase().replace(/\s+/g, ""))
+      ) {
+        return data;
+      }
+    })
+    .map((pokemon, index) => {
+      return (
+        <Pokemon
+          key={index}
+          id={pokemon.id}
+          image={pokemon.sprites.other.dream_world.front_default}
+          name={pokemon.name}
+          type={pokemon.types[0].type.name}
+        />
+      );
+    });
+
   return (
     <>
+      <Form.Group  style={{ marginBottom: "50px" }}>
+        <Form.Control
+          type="text"
+          placeholder="Search pokemons"
+          onChange={(e) => searchPokemons(e)}
+        />
+      </Form.Group>
       {loading ? (
         <Loader />
       ) : (
-        <div>
-          {pokemons.map((pokemon, index) => {
-            return (
-              <Pokemon
-                key={index}
-                id={pokemon.id}
-                image={pokemon.sprites.other.dream_world.front_default}
-                name={pokemon.name}
-                type={pokemon.types[0].type.name}
-              />
-            );
-          })}
+        <Col lg={3}>
+          {items}
           {loading ? (
             <Loader />
           ) : (
@@ -60,7 +87,7 @@ const HomePage = () => {
               Load more
             </button>
           )}
-        </div>
+        </Col>
       )}
     </>
   );
