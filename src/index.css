@@ -34,7 +34,7 @@ a:hover{
   background-color: rgb(247, 247, 247);
 }
 .electric {
-  background-color: rgb(255, 255, 161);
+  background-color: rgb(255, 255, 31);
 }
 .bug {
   background-color: #F6D6A7;
@@ -54,13 +54,21 @@ a:hover{
 .fighting {
   background-color: #c5af83;
 }
+.flying {
+  background-color: #7ad4c8;
+}
 .grass {
   background-color:#00C615;
 }
 .water {
   background-color:#00B1C6;
 }
-
+.ice {
+  background-color:#9bd9e0;
+}
+.psychic {
+  background-color:#9800c6;
+}
 .ground {
   background-color: #C68400;
 }
@@ -133,7 +141,118 @@ h3 {
   border: 1px solid #c6c6c6;
   color: #444;
   padding: 0.5rem 1.5rem;
-  min-width: 50%;
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  width: 100%;
+  margin: 2rem auto ;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width:100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+
+  
+}
+
+.modal-main {
+  position:fixed;
+  background: white;
+  padding:20px;
+  width:500px;
+  height: 400px;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+  z-index: 1;
+}
+
+.modallist {
+  height: 280px;
+  overflow-y: auto;
+}
+
+.modallist::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modallist::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+
+.modallist::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+
+.modallist::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.modal-main h3 {
+  margin: 30px 0;
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+
+.close {
+  height: 30px;
+  width: 30px;
+  padding: 0;
+  border: none;
+  outline: none;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 1px, rgba(0, 0, 0, 0.07) 0px 2px 2px, rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px, rgba(0, 0, 0, 0.07) 0px 16px 16px;
+  border-radius: 0 0 15px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: white;
+  z-index: 100;
+  
+}
+
+.back {
+  padding: 15px 30px;
+  border: none;
+  outline: none;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+  border-radius:15px;
+  background-color: white;
+  margin: 0 0 30px 0;
+}
+
+.card-wrap{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.card-text {
+  height: 50px ;
+}
+
+@media screen and (max-width: 430px){
+  .card-wrap{
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modallist{
+    height: 260px;
+  }
+}
+
+@media screen and (max-width: 520px){
+ 
+   .modal-main{
+    width: 80%;
+  }
 }

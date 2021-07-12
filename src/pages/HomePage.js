@@ -7,7 +7,9 @@ import { Form, Col, Row } from "react-bootstrap";
 const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(null);
+  const [filterParam, setFilterParam] = useState(["All"]);
   const [pokemons, setPokemons] = useState([]);
+  const [pokeTypes, setPokeTypes] = useState([]);
   const [loadMorePokemons, setLoadMorePokemons] = useState(
     "https://pokeapi.co/api/v2/pokemon?limit=20"
   );
@@ -33,8 +35,17 @@ const HomePage = () => {
     });
   };
 
+  const getTypes = async () => {
+    const res = await fetch(" https://pokeapi.co/api/v2/type");
+    const data = await res.json();
+
+    setPokeTypes(data.results);
+    console.log(data.results);
+  };
+
   useEffect(() => {
     getPokemons();
+    getTypes();
   }, []);
 
   const searchPokemons = (e) => {
@@ -68,7 +79,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Form.Group  style={{ marginBottom: "50px" }}>
+      <Form.Group style={{ marginBottom: "50px" }}>
         <Form.Control
           type="text"
           placeholder="Search pokemons"
@@ -78,7 +89,7 @@ const HomePage = () => {
       {loading ? (
         <Loader />
       ) : (
-        <Col lg={3}>
+        <div className="card-wrap">
           {items}
           {loading ? (
             <Loader />
@@ -87,7 +98,7 @@ const HomePage = () => {
               Load more
             </button>
           )}
-        </Col>
+        </div>
       )}
     </>
   );

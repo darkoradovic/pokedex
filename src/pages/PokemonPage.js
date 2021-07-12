@@ -2,11 +2,22 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Row, Col, Card } from "react-bootstrap";
 import Loader from "../components/Loader";
+import Modal from "../components/Modal";
 
-const PokemonPage = ({ match }) => {
+const PokemonPage = ({ match, history }) => {
   const pokemonName = match.params.id;
   const [details, setDetails] = useState();
   const [loading, setLoading] = useState(true);
+  const [types, setTypes] = useState(null);
+  const [open, setOpen] = useState(false);
+
+  const showModal = () => {
+    setOpen(true);
+  };
+
+  const hideModal = () => {
+    setOpen(false);
+  };
 
   const getPokemon = async (id) => {
     const details = await getPokemonData(id);
@@ -22,40 +33,57 @@ const PokemonPage = ({ match }) => {
 
   useEffect(() => {
     getPokemon(pokemonName);
-    window.scrollTo(0,0)
+    window.scrollTo(0, 0);
   }, []);
 
+  const getType = async (type) => {
+    setLoading(true);
+    axios.get(`https://pokeapi.co/api/v2/type/${type}`).then((res) => {
+      setTypes(res.data);
+      console.log(res.data);
+    });
+    setLoading(false);
+
+    showModal();
+  };
+
+  console.log(types);
   return (
     <>
+    <button className="back" onClick={() => history.push('/')}>Back Home</button>
+      <Modal show={open} handleClose={hideModal} name={types && types.name} type={types && types.name}>
+        
+        {types && types.pokemon.map(type => {
+          return <p>{(type.pokemon.name).toUpperCase()}</p>
+        })}
+      </Modal>
       {loading ? (
         <Loader />
       ) : (
         <Row>
-          <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Card.Body
+            className={`${details.types[0].type.name} rounded text-white text-center mb-5`}
+          >
+            <Card.Title as="div">
+              <strong>
+                #{details.id}{" "}
+                {details.name.charAt(0).toUpperCase() + details.name.slice(1)}
+              </strong>
+            </Card.Title>
+          </Card.Body>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
             <Card
               className="my-3 p-3 rounded text-center shadow p-3 mb-5 bg-white"
-              style={{ border: "none" }}
+              style={{ border: "none", display: "flex", alignItems: "center" }}
             >
               <Card.Img
                 style={{ width: "15rem" }}
                 src={details.sprites.other.dream_world.front_default}
                 variant="top"
               />
-
-              <Card.Body
-                className={`${details.types[0].type.name} rounded text-white`}
-              >
-                <Card.Title as="div">
-                  <strong>
-                    #{details.id}{" "}
-                    {details.name.charAt(0).toUpperCase() +
-                      details.name.slice(1)}
-                  </strong>
-                </Card.Title>
-              </Card.Body>
             </Card>
           </Col>
-          <Col xs={12} sm={12} md={12} lg={12} xl={12}>
+          <Col xs={12} sm={12} md={6} lg={6} xl={6}>
             <Card
               className="p-3 rounded text-center shadow p-3 mb-5 bg-white"
               style={{ border: "none" }}
@@ -68,13 +96,14 @@ const PokemonPage = ({ match }) => {
                         <div
                           className={`${t.type.name} rounded px-4 py-1`}
                           style={{ color: "white" }}
+                          onClick={() => getType(t.type.name)}
                         >
                           {t.type.name.toUpperCase()}
                         </div>
                       </Col>
                     ))}
                   </Row>
-                  <Row>
+                  <Row style={{marginTop:'50px'}}>
                     <Col>
                       <Card.Img
                         style={{ width: "15rem" }}

@@ -3,13 +3,13 @@ import { Spinner, Col, Row } from 'react-bootstrap';
 
 const Loader = () => {
     return (
-        <div className='d-flex justify-content-center mt-5' style={{ height: '100vh' }}>
+        <div className='d-flex justify-content-center mt-5' style={{ height: '100vh', alignContent:'center' }}>
             <Row>
                 <Col>
                     <Spinner
                         className='spinner-border  spinner-border-lg'
                         role='status'
-                        style={{ height: '5vh', width: '5vh' }}
+                        style={{ height: '10vh', width: '10vh' }}
                     >
                     </Spinner>
                 </Col>
